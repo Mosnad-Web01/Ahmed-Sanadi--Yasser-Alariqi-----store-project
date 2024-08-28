@@ -1,1 +1,14 @@
 /* Write your custom CSS here ONLY if necessary */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+  .zoom-image {
+    transition: transform 0.5s ease;
+  }
+
+  .zoom-image:hover {
+    transform: scale(1.2); /* Zoom in by 20% */
+  }
