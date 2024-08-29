@@ -5,56 +5,44 @@ const CONTAINER = document.querySelector('.container');
 
 document.body.style = 'background-color: #f8f9fa';
 
-let navbar =
-  `
-    <div class="container">
-      <nav class="navbar navbar-expand-lg bg-transparent px-5 py-3 border-bottom border-black">
-      <div class="container-fluid">
-        <a class="navbar-brand fw-bold" href="#" id="home-link">MOSNAD</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link" href="#" id="about-link">About</a>
-            </li>
-            <li class="nav-item dropdown" id="categories-dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Categories
-              </a>
-              <ul class="dropdown-menu" id="categoryDropdown">
-                <li><a class="dropdown-item" href="#" data-category="all">All</a></li>
-                <li><a class="dropdown-item" href="#" data-category="electronics">Electronics</a></li>
-                <li><a class="dropdown-item" href="#" data-category="jewelery">Jewelery</a></li>
-                <li><a class="dropdown-item" href="#" data-category="men's clothing">Men's clothing</a></li>
-                <li><a class="dropdown-item" href="#" data-category="women's clothing">Women's clothing</a></li>
-              </ul>
-            </li>
-          </ul>
-          <div class="d-flex justify-content-end w-100">
-            <i role="button" class="fa-solid fa-cart-shopping" style="font-size: 35px;"></i>
-            <span id="cart-count" style="font-size: 16px; background-color: red; color: white; border-radius: 50%; width:30px; height: 30px; display: flex; justify-content: center; align-items: center;">0</span>
-          </div>
+let navbar = `
+  <div class="container">
+    <nav class="navbar navbar-expand-lg bg-transparent px-5 py-3 border-bottom border-black">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold" href="index.html" id="home-link">MOSNAD</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="about.html" id="about-link">About</a>
+          </li>
+          <li class="nav-item dropdown" id="categories-dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Categories
+            </a>
+            <ul class="dropdown-menu" id="categoryDropdown">
+              <li><a class="dropdown-item" href="#" data-category="all">All</a></li>
+              <li><a class="dropdown-item" href="#" data-category="electronics">Electronics</a></li>
+              <li><a class="dropdown-item" href="#" data-category="jewelery">Jewelery</a></li>
+              <li><a class="dropdown-item" href="#" data-category="men's clothing">Men's clothing</a></li>
+              <li><a class="dropdown-item" href="#" data-category="women's clothing">Women's clothing</a></li>
+            </ul>
+          </li>
+        </ul>
+        <div class="d-flex justify-content-end w-100">
+          <i role="button" class="fa-solid fa-cart-shopping" style="font-size: 35px;"></i>
+          <span id="cart-count" style="font-size: 16px; background-color: red; color: white; border-radius: 50%; width:30px; height: 30px; display: flex; justify-content: center; align-items: center;">0</span>
         </div>
       </div>
-    </nav>
-  </div>
-  `;
+    </div>
+  </nav>
+</div>
+`;
 
 let HeaderText = `
 <h1 class="text-left container py-4 text-center">All Products</h1>
-`;
-
-// About Page Content
-const aboutContent = `
-<div class="container py-5">
-  <h1 class="text-center mb-4">About Us</h1>
-  <p class="lead">Welcome to MOSNAD, your number one source for all things [product, ie: electronics, clothing, etc.]. We're dedicated to giving you the very best of [product], with a focus on dependability, customer service, and uniqueness.</p>
-  <p class="lead">Founded in [year] by [Founder Name], MOSNAD has come a long way from its beginnings in [starting location]. When [Founder Name] first started out, [his/her/their] passion for [brand message - eg: "eco-friendly cleaning products"] drove them to [action: quit day job, do tons of research, etc.] so that MOSNAD can offer you [competitive differentiator - ie: "the world's most advanced toothbrush"]. We now serve customers all over [place - town, country, the world], and are thrilled that we're able to turn our passion into our own website.</p>
-  <p class="lead">We hope you enjoy our products as much as we enjoy offering them to you. If you have any questions or comments, please don't hesitate to contact us.</p>
-  <p class="lead"><strong>Sincerely,</strong><br>[Your Name], [Title, ie: Founder, CEO, etc.]</p>
-</div>
 `;
 
 // Helper function to update cart count in the UI
@@ -162,6 +150,9 @@ const renderProducts = (products, category = 'all') => {
     productsContainer.appendChild(productDiv);
     CONTAINER.appendChild(productsContainer);
   });
+
+  // Re-setup category filter to keep it working after rendering
+  setupCategoryFilter();
 };
 
 // You'll need to play with this function in order to add features and enhance the style.
@@ -172,31 +163,7 @@ const renderProduct = (product) => {
       </div>`;
 };
 
-// Render the About page
-const renderAboutPage = () => {
-  CONTAINER.innerHTML = navbar + aboutContent;
-
-  // Hide the categories dropdown when rendering the About page
-  document.getElementById('categories-dropdown').style.display = 'none';
-};
-
 // Handle Navigation between pages
-const handleNavigation = () => {
-  const aboutLink = document.getElementById('about-link');
-  const homeLink = document.getElementById('home-link');
-
-  aboutLink.addEventListener('click', (event) => {
-    event.preventDefault();
-    renderAboutPage();
-  });
-
-  homeLink.addEventListener('click', async (event) => {
-    event.preventDefault();
-    const products = await fetchProducts();
-    renderProducts(products);
-  });
-};
-
 // Add event listener for category dropdown
 const setupCategoryFilter = async () => {
   const products = await fetchProducts();
@@ -208,9 +175,6 @@ const setupCategoryFilter = async () => {
       event.preventDefault();
       const category = event.target.getAttribute('data-category');
       renderProducts(products, category);
-
-      // Re-setup the category filter after rendering
-      setupCategoryFilter();
     }
   });
 };
@@ -220,5 +184,4 @@ document.addEventListener('DOMContentLoaded', async () => {
   await autorun();
   setupCategoryFilter();
   updateCartCount(); // Initialize cart count on page load
-  handleNavigation(); // Setup navigation handling
 });
