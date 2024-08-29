@@ -45,7 +45,7 @@ let HeaderText = `
 <h1 class="text-left container py-4 text-center">All Products</h1>
 `;
 
-// Helper function to update cart count in the UI
+//update cart count in the UI
 const updateCartCount = () => {
   const cart = JSON.parse(localStorage.getItem('cart')) || [];
   const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
