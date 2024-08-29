@@ -7,7 +7,7 @@ document.body.style = 'background-color: #f8f9fa';
 
 let navbar = `
   <div class="container">
-    <nav class="navbar navbar-expand-lg bg-transparent px-5 py-3 border-bottom border-black">
+    <nav class="navbar navbar-expand-lg bg-transparent px-0 py-3 border-bottom border-black">
     <div class="container-fluid">
       <a class="navbar-brand fw-bold" href="index.html" id="home-link">MOSNAD</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,7 +32,7 @@ let navbar = `
           </li>
         </ul>
         <div class="d-flex justify-content-end w-100">
-          <i role="button" class="fa-solid fa-cart-shopping" style="font-size: 35px;"></i>
+          <i role="button" class="fa-solid fa-cart-shopping" id="cart-icon" style="font-size: 35px;"></i>
           <span id="cart-count" style="font-size: 16px; background-color: red; color: white; border-radius: 50%; width:30px; height: 30px; display: flex; justify-content: center; align-items: center;">0</span>
         </div>
       </div>
@@ -110,13 +110,11 @@ const renderProducts = (products, category = 'all') => {
   const productsContainer = document.createElement('div');
   productsContainer.classList.add('row', 'justify-content-center', 'row-cols-1', 'px-3', 'row-cols-md-2', 'row-cols-lg-3', 'row-cols-xl-4');
 
-  // Show the categories dropdown when rendering products
   document.getElementById('categories-dropdown').style.display = 'block';
 
-  // Filter products if a category is selected
   const filteredProducts = category === 'all' ? products : products.filter(product => product.category === category);
 
-  filteredProducts.map((product) => {
+  filteredProducts.forEach((product) => {
     const productDiv = document.createElement('div');
     productDiv.classList.add('col', 'mb-5', 'border', 'p-4', 'bg-white', 'm-3', 'rounded-4', 'shadow');
     productDiv.innerHTML = `
@@ -148,11 +146,13 @@ const renderProducts = (products, category = 'all') => {
     });
 
     productsContainer.appendChild(productDiv);
-    CONTAINER.appendChild(productsContainer);
   });
+
+  CONTAINER.appendChild(productsContainer);
 
   // Re-setup category filter to keep it working after rendering
   setupCategoryFilter();
+  setupCartNavigation();
 };
 
 // You'll need to play with this function in order to add features and enhance the style.
@@ -163,13 +163,11 @@ const renderProduct = (product) => {
       </div>`;
 };
 
-// Handle Navigation between pages
-// Add event listener for category dropdown
+
 const setupCategoryFilter = async () => {
   const products = await fetchProducts();
   const categoryDropdown = document.getElementById('categoryDropdown');
 
-  // Use event delegation for dropdown items
   categoryDropdown.addEventListener('click', (event) => {
     if (event.target.classList.contains('dropdown-item')) {
       event.preventDefault();
@@ -179,9 +177,17 @@ const setupCategoryFilter = async () => {
   });
 };
 
-// Ensure the event listener is added only once
+// Add event listener to the cart icon to navigate to the cart page
+const setupCartNavigation = () => {
+  const cartIcon = document.getElementById('cart-icon');
+  cartIcon.addEventListener('click', () => {
+    window.location.href = 'cart.html'; // Navigate to the cart page
+  });
+};
+
 document.addEventListener('DOMContentLoaded', async () => {
   await autorun();
   setupCategoryFilter();
-  updateCartCount(); // Initialize cart count on page load
+  setupCartNavigation(); // Call this function to enable cart navigation
+  updateCartCount(); 
 });
