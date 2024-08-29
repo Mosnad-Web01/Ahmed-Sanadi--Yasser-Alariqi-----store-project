@@ -5,8 +5,12 @@ This is a store database project, where it shows products, their description, ra
 This project uses The Fake Store API: `https://fakestoreapi.com`. It is up to
 you to use your Google and Postman skills to explore the API and understand the
 data.
+## Demo
+
+You can view the live demo of the project [Demo](https://mosnad-web01.github.io/Ahmed-Sanadi--Yasser-Alariqi-----store-project/).
 
 # Already built for you
+
 
 - A home page that shows products from the API
 - When you click one of the products, you'll see the Single product page, which should includes:
