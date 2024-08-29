@@ -157,10 +157,47 @@ const renderProducts = (products, category = 'all') => {
 
 // You'll need to play with this function in order to add features and enhance the style.
 const renderProduct = (product) => {
-  CONTAINER.innerHTML = `
+  CONTAINER.innerHTML = navbar + `
+    <div class="container mt-5">
       <div class="row">
-          ${product.title}
-      </div>`;
+        <div class="col-md-6">
+          <img 
+            src="${product.image}" 
+            alt="${product.title}" 
+            class="img-fluid rounded-4 shadow-sm" 
+            style="object-fit: contain; max-height: 500px; width: 100%;"
+          />
+        </div>
+        <div class="col-md-6">
+          <h2 class="fw-bold mt-3">${product.title}</h2>
+          <p class="text-muted">${product.category}</p>
+          <p class="fw-bold">$${product.price}</p>
+          <p>${product.description}</p>
+          <button class="btn btn-primary btn-lg mt-3 add-to-cart-btn">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Attach event listener to the "Add to cart" button in the product details
+  document.querySelector('.add-to-cart-btn').addEventListener('click', () => {
+    addToCart(product);
+    alert('Product added to cart!');
+  });
+};
+
+// Add event listener to the cart icon to navigate to the cart page
+const setupCartNavigation = () => {
+  const cartIcon = document.getElementById('cart-icon');
+  console.log('Setting up cart navigation');
+  if (cartIcon) {
+    cartIcon.addEventListener('click', () => {
+      console.log('Cart icon clicked');
+      window.location.href = 'cart.html'; // Navigate to the cart page
+    });
+  } else {
+    console.log('Cart icon not found');
+  }
 };
 
 
@@ -174,14 +211,6 @@ const setupCategoryFilter = async () => {
       const category = event.target.getAttribute('data-category');
       renderProducts(products, category);
     }
-  });
-};
-
-// Add event listener to the cart icon to navigate to the cart page
-const setupCartNavigation = () => {
-  const cartIcon = document.getElementById('cart-icon');
-  cartIcon.addEventListener('click', () => {
-    window.location.href = 'cart.html'; // Navigate to the cart page
   });
 };
 
